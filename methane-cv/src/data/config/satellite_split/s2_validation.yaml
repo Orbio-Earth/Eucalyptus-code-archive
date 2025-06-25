@@ -1,0 +1,6 @@
+tiles_query_files:
+  - src/data/tiles/s2/csv_files/2025_05_22_MGRS_with_IDs_within_OG_val_248.csv
+plume_proba_dict: {0: 0.2, 1: 0.8}
+transformations_grid:
+  modulate: [1.0]
+  resize: [1.0]

@@ -1,0 +1,9 @@
+---
+description: Python Projects Rules
+globs:
+alwaysApply: true
+---
+
+# Code Style
+- Format and lint code with the Ruff formatter (https://github.com/astral-sh/ruff) and following the rules in @methane-cv/pyproject.toml
+- Always add type hints following the mypy rules in @methane-cv/pyproject.toml

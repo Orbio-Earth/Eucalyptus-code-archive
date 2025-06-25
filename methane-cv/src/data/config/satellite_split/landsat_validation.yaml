@@ -1,0 +1,6 @@
+tiles_query_files:
+  - src/data/tiles/landsat/csv_files/2025_03_03_wrs_with_IDs_within_OG_val_143.csv
+plume_proba_dict: {0: 0.2, 1: 0.8}
+transformations_grid:
+  modulate: [1.0]
+  resize: [1.0]

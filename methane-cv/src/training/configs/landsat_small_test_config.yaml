@@ -1,0 +1,61 @@
+---
+meta:
+  registered_model_name: landsat # where the model is saved in AML
+
+model:
+  model_type: unetplusplus
+  encoder: timm-efficientnet-b1
+
+compute:
+  compute_target: gpu-cluster-8cores
+  shared_memory: 16g
+  num_workers: 2 # Per GPU
+
+train:
+  epochs: 1
+  epochs_warmup: 1
+  max_train_files: 50
+  random_state: 42
+  modulation_start: 1.0
+  modulation_end: 0.05
+  train_shrinkage: 0.5
+  train_monitoring_ratio: 0.1
+  satellite_id: LANDSAT
+  bands: swir16,swir22,nir08,red,green
+  snapshots: crop_earlier,crop_before
+
+  optimizer:
+    # We implement a batch size schedule, from min_batch_size in the first epoch to max_batch_size in the final epoch.
+    # Inspired by "Don't Decay the Learning Rate, Increase the Batch Size" https://arxiv.org/abs/1711.00489
+    # For the test and validation datasets, max_batch_size is used to get the best computational performance.
+    min_batch_size: 4 # Per GPU + Assuming Rowgroup size of 1
+    max_batch_size: 16 # Per GPU + Assuming Rowgroup size of 1
+    # instead of using the pytorch default, we use the fastai defaults, which work much better.
+    beta1: 0.9
+    beta2: 0.99
+    eps: 0.00001
+    lr: 0.001
+    optimizer: AdamW # only used as description here
+
+  loss:
+    binary_threshold: 0.001
+    mse_multiplier: 1000.0
+
+  data:
+    uri: data/carbonmapper/LANDSAT/training_2025_03_25/LC08_L1TP_022028_20230112_20230125_02_T2.parquet
+    # data_type is the azure.ai.ml.constants.AssetTypes enum passed to the
+    # azure.ai.ml.Input class to define the training data input.
+    data_type: uri_file
+
+validation:
+  validate_every_x: 1
+  early_patience: 3 # nb of validation runs without improvement before stopping training
+  probability_threshold: 0.25
+  validation_shrinkage: 1.0
+  data:
+    # FIXME: this is a folder with 2 parquet files and not from validation set
+    uri: data/carbonmapper/LANDSAT/validation_single_parquet
+    data_type: uri_folder
+
+ground_truth:
+  dataset: "src/data/ancillary/landsat_ground_truth_plumes_single.csv"

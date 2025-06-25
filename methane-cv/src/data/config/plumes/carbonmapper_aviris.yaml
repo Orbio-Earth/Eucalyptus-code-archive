@@ -1,0 +1,4 @@
+name: aviris
+id: AVIRIS
+plume_type: carbonmapper # maps to PlumeType enum
+concentration_rescale_value: 10

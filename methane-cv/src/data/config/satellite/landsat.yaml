@@ -1,0 +1,14 @@
+name: Landsat
+id: LANDSAT  # maps to SatelliteID enum
+hapi_data_path: "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/radtran/hapi/2025_03_17_v4"
+compute_target: "beefier-cpu-cluster"
+main_tile_cloud_max: 0.98
+main_tile_nodata_max: 0.95
+cloud_coverage_threshold: 1.0 # means = main_crop_cloud_max
+reference_tile_cloud_shadow_max: 0.8
+reference_crop_cloud_shadow_max: 0.05
+time_delta_days: 300
+nb_reference_ids: 10
+bands: "coastal,blue,green,red,nir08,swir16,swir22,cirrus,lwir11,lwir12,qa_pixel"
+psf_sigma: 25.61
+target_spatial_resolution: 30  # meters

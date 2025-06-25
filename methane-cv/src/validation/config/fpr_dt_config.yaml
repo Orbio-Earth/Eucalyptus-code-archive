@@ -1,0 +1,17 @@
+satellite_name: s2
+satellite_id: S2  # maps to SatelliteID enum
+target_spatial_resolution: 20  # meters
+experiment_name: ???
+model_id: ???
+val_parquet_folder_path: data/aviris/S2/validation_2025_02_21_hassi_marc_perm_splits
+compute: gpu-one-v100
+seed: 42
+crop_size: 128
+ncrops: 30 # we insert all 5 garrona plumes once per crop (randomly rotated/flipped/positioned)
+regions:
+  - hassi
+  - permian
+  - marcellus
+
+hapi_data_path: azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/radtran/hapi/2025_02_26
+azure_cluster: true
