@@ -1,0 +1,5 @@
+MAIN_LANDSAT_BANDS = ["swir16", "swir22", "nir08", "red", "green"]
+TEMPORAL_LANDSAT_BANDS = ["swir16", "swir22", "nir08", "red"]
+MAIN_S2_BANDS = ["B11", "B12", "B8A", "B07", "B05"]
+TEMPORAL_S2_BANDS = ["B11", "B12", "B8A", "B07"]
+SNAPSHOTS = ["crop_earlier", "crop_before"]

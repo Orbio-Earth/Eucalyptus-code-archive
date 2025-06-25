@@ -1,0 +1,60 @@
+---
+meta:
+  registered_model_name: emit  # where the model is saved in AML
+
+model:
+  model_type: unetplusplus
+  encoder: timm-efficientnet-b1
+
+compute:
+  compute_target: gpu-cluster-8cores
+  shared_memory: 16g
+  num_workers: 8
+
+train:
+  epochs: 1
+  epochs_warmup: 1
+  max_train_files: 50
+  random_state: 42
+  modulation_start: 1.0 # no effect for EMIT
+  modulation_end: 1.0 # no effect for EMIT
+  train_shrinkage: 0.5
+  train_monitoring_ratio: 0.1
+  satellite_id: EMIT
+  bands: ALL # no effect for EMIT
+  snapshots: only_maincrop # no effect for EMIT
+
+  optimizer:
+    # We implement a batch size schedule, from min_batch_size in the first epoch to max_batch_size after epochs_warmup epochs.
+    # Inspired by "Don't Decay the Learning Rate, Increase the Batch Size" https://arxiv.org/abs/1711.00489
+    # For validation, max_batch_size is used to get the best computational performance.
+    min_batch_size: 4 # Per GPU + Assuming Rowgroup size of 10
+    max_batch_size: 16  # Per GPU + Assuming Rowgroup size of 10
+    # instead of using the pytorch default, we use the fastai defaults, which work much better.
+    beta1: 0.9
+    beta2: 0.99
+    eps: 0.00001
+    lr: 0.001
+    optimizer: AdamW  # only used as description here
+
+  loss:
+    binary_threshold: 0.001
+    mse_multiplier: 1000.0
+
+  data:
+    uri: data/carbonmapper/EMIT/training_carbonmapper_aviris_and_emit_n750_20250317/modulate_1.0_resize_1.0/cloud_bucket_30/EMIT_L1B_RAD_001_20230111T130143_2301108_005.parquet
+    # data_type is the azure.ai.ml.constants.AssetTypes enum passed to the
+    # azure.ai.ml.Input class to define the training data input.
+    data_type: uri_file
+
+validation:
+  validate_every_x: 1
+  early_patience: 3  # nb of validation runs without improvement before stopping training
+  probability_threshold: 0.5
+  validation_shrinkage: 0.1
+  data:
+    uri: data/aviris/EMIT/validation__emit_aviris_validation_20250224/modulate_1.0_resize_1.0
+    data_type: uri_folder
+
+ground_truth:
+  dataset: "src/data/ancillary/EMIT_ground_truth_plumes_single.csv"

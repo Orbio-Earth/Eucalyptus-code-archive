@@ -1,0 +1,21 @@
+--editable ../radtran/
+--editable ../methane-cv/
+# Some package either aren't available through conda or their dependencies a highly disruptive,
+# and downgrade some important packages. 
+# To limit their blast radius, these have been moved from the conda env to requirements.txt,
+# to be installed with the --no-deps flag.
+# To upgrade these packages, I recommend using `pipdeptree`, for example:
+# `pip install deptree` and then `pipdeptree -p azureml-mlflow`,
+# which handily also shows conflicts and missing packages, then manually
+# update the versions in this file and in conda_env.yaml.
+earthaccess==0.13.0  # downgrades botocore otherwise
+torch-tb-profiler==0.4.3  # not available through conda
+azureml-mlflow==1.59.0  # not available through conda
+opencensus-ext-logging==0.1.1  # required by azure-ai-ml, but for some reason not installed by conda
+azureml-fsspec==1.3.1  # this messes with dependencies, downgrades fsspec
+# dependencies of azureml-fsspec:
+azureml-dataprep==5.1.6
+azureml-dataprep-native==41.0.0
+azureml-dataprep-rslex==2.22.5
+# omnicloudmask and its dependencies
+omnicloudmask==1.0.7

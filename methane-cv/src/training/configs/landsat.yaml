@@ -1,0 +1,60 @@
+---
+meta:
+  registered_model_name: landsat # where the model is saved in AML
+
+model:
+  model_type: unetplusplus
+  encoder: timm-efficientnet-b1
+
+compute:
+  compute_target: gpu-cluster-64cores
+  shared_memory: 128g
+  num_workers: 1 # Per GPU
+
+train:
+  epochs: 500
+  epochs_warmup: 20
+  max_train_files: 1000
+  random_state: 42
+  modulation_start: 1.0 # Starting value for modulation schedule
+  modulation_end: 0.05 # Ending value for modulation schedule
+  train_shrinkage: 1.0
+  train_monitoring_ratio: 0.0
+  satellite_id: LANDSAT
+  bands: swir16,swir22,nir08,red,green
+  snapshots: crop_earlier,crop_before
+
+  optimizer:
+    # We implement a batch size schedule, from min_batch_size in the first epoch to max_batch_size after epochs_warmup epochs.
+    # Inspired by "Don't Decay the Learning Rate, Increase the Batch Size" https://arxiv.org/abs/1711.00489
+    # For validation, max_batch_size is used to get the best computational performance.
+    min_batch_size: 16 # Per GPU + Assuming Rowgroup size of 1
+    max_batch_size: 160 # Per GPU + Assuming Rowgroup size of 1
+    # instead of using the pytorch default, we use the fastai defaults, which work much better.
+    beta1: 0.9
+    beta2: 0.99
+    eps: 0.00001
+    lr: 0.001
+    optimizer: "AdamW" # only used as description here
+
+  loss:
+    binary_threshold: 0.001
+    mse_multiplier: 1000.0
+
+  data:
+    uri: data/carbonmapper/LANDSAT/training_2025_04_02_reduced
+    # data_type is the azure.ai.ml.constants.AssetTypes enum passed to the
+    # azure.ai.ml.Input class to define the training data input.
+    data_type: uri_folder
+
+validation:
+  validate_every_x: 2
+  early_patience: 8 # nb of validation runs without improvement before stopping training
+  probability_threshold: 0.25
+  validation_shrinkage: 1.0
+  data:
+    uri: data/carbonmapper/LANDSAT/validation_2025_04_03_reduced
+    data_type: uri_folder
+
+ground_truth:
+  dataset: src/data/ancillary/landsat_ground_truth_plumes.csv

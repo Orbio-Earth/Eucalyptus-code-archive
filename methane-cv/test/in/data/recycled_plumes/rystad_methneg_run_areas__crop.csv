@@ -1,0 +1,4 @@
+,run_area_id,date,tile_name,num_tiles,country,biome_id,Land_Cover_Class,Land_Cover_Class_Forest_Grouped,cloud_percent,swath_percent,data_quality_percent
+0,647089,2022/11/19,10TDT_15,1,United States,111.0,"Closed forest, evergreen needle leaf",Forest,0.0,0.0,0.0
+1,647096,2022/11/17,11SLC_29,1,United States,20.0,Shrubs,Shrubs,0.0,0.0,0.0
+20,703455,2022/11/2,15TYM_53,1,United States,80.0,Permanent water bodies,Permanent water bodies,0.0,0.0,0.0

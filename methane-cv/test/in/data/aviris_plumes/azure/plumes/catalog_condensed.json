@@ -1,0 +1,6 @@
+[
+    "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/aviris/training/ang20230319t181713-A_l3a-ch4-mf-v0_concentrations.tif",
+    "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/aviris/training/ang20230319t181713-B_l3a-ch4-mfa-v0_concentrations.tif",
+    "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/aviris/training/ang20230319t181244-A_l3a-ch4-mf-v0_concentrations.tif",
+    "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/aviris/training/ang20230319t181244-B_l3a-ch4-mfa-v0_concentrations.tif"
+]

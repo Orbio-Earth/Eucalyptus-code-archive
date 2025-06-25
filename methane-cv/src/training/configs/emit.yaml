@@ -1,0 +1,70 @@
+---
+meta:
+  registered_model_name: emit  # where the model is saved in AML
+
+model:
+  # # Basic U-Net
+  # model_type: unet
+  # encoder: resnet50
+
+  # # Spectral U-Net
+  # model_type: spectralunet
+  # encoder: resnet50
+
+  # U-Net++ with selected encoder
+  model_type: unetplusplus
+  encoder: timm-efficientnet-b1
+
+
+compute:
+  compute_target: gpu-cluster-64cores
+  shared_memory: 128g
+  num_workers: 3 # Per GPU
+
+train:
+  epochs: 500
+  epochs_warmup: 30
+  max_train_files: 350
+  random_state: 42
+  modulation_start: 1.0  # no effect for EMIT
+  modulation_end: 1.0  # no effect for EMIT
+  train_shrinkage: 1.0
+  train_monitoring_ratio: 0.0
+  satellite_id: EMIT
+  bands: ALL # no effect for EMIT
+  snapshots: only_maincrop # no effect for EMIT
+
+  optimizer:
+    # We implement a batch size schedule, from min_batch_size in the first epoch to max_batch_size after epochs_warmup epochs.
+    # Inspired by "Don't Decay the Learning Rate, Increase the Batch Size" https://arxiv.org/abs/1711.00489
+    # For validation, max_batch_size is used to get the best computational performance.
+    min_batch_size: 10 # Per GPU + Assuming Rowgroup size of 1
+    max_batch_size: 40 # Per GPU + Assuming Rowgroup size of 1
+    # instead of using the pytorch default, we use the fastai defaults, which work much better.
+    beta1: 0.9
+    beta2: 0.99
+    eps: 0.00001
+    lr: 0.001
+    optimizer: AdamW  # only used as description here
+
+  loss:
+    binary_threshold: 0.001
+    mse_multiplier: 1000.0
+
+  data:
+    uri: data/carbonmapper/EMIT/training_08042025-aviris-and-emit-new-tiles
+    # data_type is the azure.ai.ml.constants.AssetTypes enum passed to the
+    # azure.ai.ml.Input class to define the training data input.
+    data_type: uri_folder
+
+validation:
+  validate_every_x: 4
+  early_patience: 10  # nb of validation runs without improvement before stopping training
+  probability_threshold: 0.5
+  validation_shrinkage: 1.0
+  data:
+    uri: data/carbonmapper/EMIT/validation_08042025-aviris-and-emit-new-tiles
+    data_type: uri_folder
+
+ground_truth:
+  dataset: src/data/ancillary/EMIT_ground_truth_plumes.csv

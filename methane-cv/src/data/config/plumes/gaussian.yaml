@@ -1,0 +1,6 @@
+name: gaussian
+id: GAUSSIAN
+plume_type: gaussian # maps to PlumeType enum
+concentration_rescale_value: None
+simulated_emission_rate: 1000 # kg/h
+min_emission_rate: 100 # kg/h

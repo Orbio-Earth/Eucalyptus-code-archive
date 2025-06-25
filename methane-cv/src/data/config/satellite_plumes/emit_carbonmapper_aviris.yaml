@@ -1,0 +1,5 @@
+# @package plumes
+
+# selected s.t. median plume is ~1,000kg/hr.
+# https://git.orbio.earth/orbio/orbio/-/issues/1126#note_82143
+concentration_rescale_value: 4

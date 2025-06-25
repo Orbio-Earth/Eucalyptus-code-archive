@@ -1,0 +1,7 @@
+name: emit
+id: EMIT  # maps to SatelliteID enum
+compute_target: "beefy-cpu-cluster"
+cloud_coverage_threshold: 0.3
+hapi_data_path: "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/radtran/hapi/v1.1.1.0"
+psf_sigma: 38.22
+target_spatial_resolution: 60  # meters

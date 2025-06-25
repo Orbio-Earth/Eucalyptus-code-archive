@@ -1,0 +1,10 @@
+{
+    "wave_step_nm": 0.025,
+    "min_p" : 0.8,
+    "max_p" : 1.1,
+    "delta_p" : 0.1,
+    "min_temp" : 250,
+    "max_temp" : 325, 
+    "delta_temp": 25,
+    "number_step" : 0.01
+}

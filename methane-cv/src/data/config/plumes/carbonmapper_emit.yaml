@@ -1,0 +1,4 @@
+name: emit
+id: EMIT
+plume_type: carbonmapper  # maps to PlumeType enum
+concentration_rescale_value: 1

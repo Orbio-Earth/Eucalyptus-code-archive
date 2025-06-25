@@ -1,0 +1,6 @@
+tiles_query_files:
+  - src/data/tiles/emit/csv_files/2025_03_21_MGRS_with_IDs_within_OG_4547_train_1120.csv
+plume_proba_dict: {0: 0.1667, 1: 0.1667, 2: 0.1667, 3: 0.1667, 4: 0.1666, 5: 0.1666}
+transformations_grid:
+  modulate: [1.0]
+  resize: [1.0]

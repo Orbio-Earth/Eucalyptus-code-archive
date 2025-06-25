@@ -1,0 +1,16 @@
+name: s2
+id: S2  # maps to SatelliteID enum
+hapi_data_path: "azureml://subscriptions/6e71ce37-b9fe-4c43-942b-cf0f7e78c8ab/resourcegroups/orbio-ml-rg/workspaces/orbio-ml-ml-workspace/datastores/workspaceblobstore/paths/data/radtran/hapi/2025_02_26"
+compute_target: "gpu-cluster-8cores"
+main_tile_cloud_max: 0.98
+main_tile_nodata_max: 0.95
+cloud_coverage_threshold: 1.0 # means = main_crop_cloud_max
+reference_tile_cloud_shadow_max: 0.8
+reference_crop_cloud_shadow_max: 0.05
+omnicloud_cloud_t: 35
+omnicloud_shadow_t: 30
+time_delta_days: 300
+nb_reference_ids: 10
+bands: "B01,B02,B03,B04,B05,B06,B07,B08,B09,B11,B12,B8A,SCL"
+psf_sigma: 10.4
+target_spatial_resolution: 20  # meters

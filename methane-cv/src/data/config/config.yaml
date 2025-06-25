@@ -1,0 +1,29 @@
+random_seed: 42
+crop_size: 128
+test_run: false
+
+# The defaults section is where we point to the config snippets to compose into
+# this main config. For example, satellite can be any one snippets in `config/satellite/`
+# and if the user sets `satellite=s2` in the CLI, then the contents of `config.satellite/s2.yaml`
+# are added to this config under the `satellite` key.
+defaults:
+  - _self_
+
+  # Which satellite to use (s2, emit, etc.). '???' means no default value.
+  - satellite: ???
+    
+  # Which dataset split to generate (training, validation)
+  - split: validation
+
+  # Which plume type to insert (aviris, recycled)
+  - plumes: carbonmapper_aviris
+  
+  # The below keys are not meant to be manually set. These dynamically
+  # set/override config values that depend on more than one of the above
+  # defaults. See https://hydra.cc/docs/patterns/specializing_config/
+  # for an explainer on this pattern.
+  - plumes_split: ${plumes}_${split}
+  - satellite_split: ${satellite}_${split}
+  - optional satellite_plumes: ${satellite}_${plumes}
+
+test: false # if true, only generate a few chips
